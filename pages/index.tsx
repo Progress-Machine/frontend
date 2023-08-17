@@ -54,7 +54,7 @@ const MainPage = () => {
 						<Card
 							key={key}
 							hoverable
-							onClick={() => router.push(`/products/${i.id}`)}
+							onClick={() => router.push(`/products?id=${i.id}`)}
 							style={{ width: 240 }}
 							cover={(
 								<Image
