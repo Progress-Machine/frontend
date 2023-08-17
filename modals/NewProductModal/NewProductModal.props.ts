@@ -1,7 +1,7 @@
 import { ModalProps } from 'antd';
 
 interface Props extends ModalProps {
-	onFinish: () => void;
+	onFinish: (url: string) => void;
 }
 
 export default Props;

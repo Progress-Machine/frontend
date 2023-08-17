@@ -7,12 +7,27 @@ import withCheckAuthLayout from '@layouts/CheckAuthLayout';
 import MainLayout from '@layouts/MainLayout';
 
 import { Content, Header, Title } from '@styles/pages/MainPage.styles';
-import NewProductModal from '@/modals/NewProductModal';
+import NewProductModal from '@modals/NewProductModal';
+import { useMutation, useQuery } from 'react-query';
+import { createProducts, getProducts } from '@shared/products';
 
 const { Meta } = Card;
 
 const MainPage = () => {	
 	const [showModal, setShowModal] = useState(false);
+
+	const { data, refetch } = useQuery(['get_products'], () => getProducts());
+
+	const { mutate, isLoading } = useMutation(createProducts, {
+		onSuccess: () => {
+			setShowModal(false);
+			refetch();
+		},
+		onError: () => {
+			setShowModal(false);
+			refetch();
+		},
+	});
 
 	const router = useRouter();
 
@@ -20,7 +35,10 @@ const MainPage = () => {
 		<>
 			<NewProductModal
 				open={showModal}
-				onFinish={() => setShowModal(false)}
+				confirmLoading={isLoading}
+				onFinish={(data) => {
+					mutate(data);
+				}}
 				onCancel={() => setShowModal(false)} />
 			<MainLayout activeMenu={['products']}>
 				<Header>
@@ -32,21 +50,24 @@ const MainPage = () => {
 					</Button>
 				</Header>
 				<Content>
-					{Array(10).fill((
+					{(data as Array<any>)?.map((i, key) => (
 						<Card
+							key={key}
 							hoverable
-							onClick={() => router.push('/1')}
+							onClick={() => router.push(`/products/${i.id}`)}
 							style={{ width: 240 }}
 							cover={(
 								<Image
 									width={240}
 									height={214}
-									objectFit='cover'
+									style={{
+										objectFit: 'cover',
+									}}
 									alt='img'
-									src='/assets/demo.webp' />
+									src={i.img_link} />
 							)}
 						>
-							<Meta title='iPhone 13 Pro' description='ozon' />
+							<Meta title={i.name} description={`${i.price} ₽`} />
 						</Card>
 					))}
 				</Content>

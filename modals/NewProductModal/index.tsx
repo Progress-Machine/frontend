@@ -1,9 +1,8 @@
-import { Form, Input, Modal, Radio } from 'antd';
+import { Form, Input, Modal } from 'antd';
 import Props from './NewProductModal.props';
 
 interface IForm {
 	productUrl: string;
-	shop: 'wildberries' | 'ozon';
 }
 
 const NewProductModal: React.FC<Props> = ({ onFinish, ...props }) => {
@@ -21,23 +20,8 @@ const NewProductModal: React.FC<Props> = ({ onFinish, ...props }) => {
 			<Form
 				layout='vertical'
 				form={form}
-				onFinish={() => onFinish()}
+				onFinish={(data) => onFinish(data.productUrl)}
 			>
-				<Form.Item
-					label='Магазин'
-					name='shop'
-					required
-					rules={[{ required: true, message: 'Выберите магазин' }]}
-				>
-					<Radio.Group>
-						<Radio.Button value='ozon'>
-							ozon
-						</Radio.Button>
-						<Radio.Button value='wildberries'>
-							wildberries
-						</Radio.Button>
-					</Radio.Group>
-				</Form.Item>
 				<Form.Item
 					label='URL товара'
 					required
