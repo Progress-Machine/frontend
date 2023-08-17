@@ -13,7 +13,7 @@ export function createChartData(values: number[]): any[] {
 		let cnt_values = 0;
 
 		for(let v of values) {
-			if(v > start_val && v < end_val)
+			if(v >= start_val && v < end_val)
 				cnt_values++;
 		}
 
