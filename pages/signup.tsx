@@ -18,7 +18,7 @@ const SignupPage = () => {
 
 	const router = useRouter();
 
-	const { isLoading, mutate } = useMutation(signup, {
+	const { isLoading, mutate, isError } = useMutation(signup, {
 		onSuccess: () => {
 			router.push('/login');
 		},
@@ -59,6 +59,11 @@ const SignupPage = () => {
 				<Link href='/login' style={{ display: 'block', width: '100%', textAlign: 'center' }}>
 					Уже есть аккаунт? Войдите
 				</Link>
+				{isError && (
+					<p style={{ textAlign: 'center', color: 'red', marginTop: 15 }}>
+						Ой. Что-то пошло не так. Возможно пользователь с таким email уже существует
+					</p>
+				)}
 			</Form>
 		</main>
 	);

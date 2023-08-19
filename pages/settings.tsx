@@ -21,47 +21,8 @@ const SettingsPage = () => {
 			<Title>
 				Настройки аккаунта
 			</Title>
-			<Form
-				layout='vertical'
-				form={form}
-				onFinish={(values) => console.log(values)}
-				autoComplete='off'
-			>
-				<AntdForm.Item
-					label='API ключ ozon'
-					name='ozonApiKey'
-				>
-					<Input.Password placeholder='Логин' />
-				</AntdForm.Item>
-				<AntdForm.Item
-					label='API ключ wildberries'
-					name='wildberriesApiKey'
-				>
-					<Input.Password placeholder='Логин' />
-				</AntdForm.Item>
-				<AntdForm.Item
-					label='Логин'
-					required
-					name='login'
-					rules={[{ required: true, message: 'Заполните это поле' }]}
-				>
-					<Input placeholder='Логин' />
-				</AntdForm.Item>
-				<AntdForm.Item
-					label='Пароль'
-					required
-					name='password'
-					rules={[{ required: true, message: 'Заполните это поле' }]}
-				>
-					<Input.Password placeholder='Пароль' />
-				</AntdForm.Item>
-				<AntdForm.Item>
-					<Button type='primary' onClick={() => form.submit()}>
-						Сохранить
-					</Button>
-				</AntdForm.Item>
-			</Form>
 			<Button
+				style={{ marginTop: 50 }}
 				type='primary'
 				danger
 				onClick={() => {

@@ -16,3 +16,6 @@ export const createProducts = (data: any) => {
 	}).then((res) => res.data);
 };
 
+export const newAlatics = (data: any) => {
+	return instance.post('/product/analytics', data).then((res) => res.data);
+};

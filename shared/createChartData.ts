@@ -18,7 +18,7 @@ export function createChartData(values: number[]): any[] {
 		}
 
 		result.push({
-			name: ((start_val + end_val) / 2).toFixed(0),
+			name: ((start_val + end_val) / 2).toFixed(2),
 			one: cnt_values,
 		});
 	}

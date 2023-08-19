@@ -15,7 +15,7 @@ interface IForm {
 const LoginPage = () => {
 	const [form] = AntdForm.useForm<IForm>();
 
-	const { isLoading, mutate } = useMutation(login, {
+	const { isLoading, mutate, isError } = useMutation(login, {
 		onSuccess: (result) => {
 			localStorage.setItem('access_token', result.access_token);
 			window.location.reload();
@@ -57,6 +57,11 @@ const LoginPage = () => {
 				<Link href='/signup' style={{ display: 'block', width: '100%', textAlign: 'center' }}>
 					Нет аккаунта? Зарегистрируйтесь
 				</Link>
+				{isError && (
+					<p style={{ textAlign: 'center', color: 'red', marginTop: 15 }}>
+						Неверный логин или пароль
+					</p>
+				)}
 			</Form>
 		</main>
 	);
