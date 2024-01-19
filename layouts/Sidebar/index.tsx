@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { Layout, Menu, MenuProps } from 'antd';
 import { EditOutlined, SettingOutlined, ShoppingOutlined } from '@ant-design/icons';
 
@@ -35,7 +36,9 @@ const Sidebar: React.FC<Props> = ({ activeMenu, ...props }) => {
 
 	return (
 		<Sider theme='light' width={220} {...props}>
-			<Logo />
+			<Link href='/'>
+				<Logo />
+			</Link>
 			<Menu defaultSelectedKeys={activeMenu} items={menuItems} />
 		</Sider>
 	);

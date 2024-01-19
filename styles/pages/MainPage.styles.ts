@@ -1,5 +1,7 @@
 import { styled } from 'styled-components';
 
+import { Spin as AntdSpin } from 'antd';
+
 export const Header = styled.div`
 	display: flex;
 	justify-content: space-between;
@@ -17,4 +19,8 @@ export const Content = styled.main`
 	grid-template-columns: repeat(auto-fill, 240px);
 	gap: 20px;
 	justify-content: space-between;
+`;
+
+export const Spin = styled(AntdSpin)`
+	margin-top: 50px;
 `;

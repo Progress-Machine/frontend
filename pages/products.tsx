@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Breadcrumb, Button, List } from 'antd';
+import Markdown from 'markdown-to-jsx';
 
 import MainLayout from '@layouts/MainLayout';
 import BarChart from '@components/Charts/BarChart';
@@ -38,6 +39,8 @@ const ProductPage: React.FC = () => {
 	useEffect(() => {
 		setIsReady(true);
 	}, []);
+
+	console.log(data);
 
 	if(!isReady)
 		return null;
@@ -94,75 +97,96 @@ const ProductPage: React.FC = () => {
 				</Header>
 				<CommentsBlock>
 					<CommentsBlockTitle>
-						Цена
+						Общая аналитика
 					</CommentsBlockTitle>
 					<CommentsBlockP>
-						{data?.statistic.price_analytic.comment}
+						{data?.statistic.summary_analysis && (
+							<Markdown className='markdown-container'>
+								{data?.statistic.summary_analysis}
+							</Markdown>
+						)}
 					</CommentsBlockP>
 				</CommentsBlock>
 				<CommentsBlock>
 					<CommentsBlockTitle>
-						Рекомендации по цене
+						Аналитика тэгов и концепции
 					</CommentsBlockTitle>
 					<CommentsBlockP>
-						{data?.statistic.price_analytic.personal_comment}
+						{data?.statistic.description_main_tags && (
+							<Markdown className='markdown-container'>
+								{data?.statistic.description_main_tags}
+							</Markdown>
+						)}
+					</CommentsBlockP>
+				</CommentsBlock>
+				<CommentsBlock>
+					<CommentsBlockTitle>
+						Распределение цен
+					</CommentsBlockTitle>
+					<CommentsBlockP>
+						Ваша цена:
+						{` ${data?.statistic.item_data.price} ₽`}
 					</CommentsBlockP>
 				</CommentsBlock>
 				{isSuccess && (
 					<BarChart
 						width={windowSizes.width - 400}
 						height={500} 
-						data={createChartData(data?.statistic.price_analytic.nearest_prices)}
+						data={createChartData(data?.statistic.competitors_stats.prices)}
 						colors={{
 							one: '#F94144',
 						}} />
 				)}
 				<CommentsBlock>
 					<CommentsBlockTitle>
-						Рейтинг
+						Распределение рейтинга
 					</CommentsBlockTitle>
 					<CommentsBlockP>
-						{data?.statistic.rating_analytic.comment}
+						Ваш рейтинг:
+						{` ${data?.statistic.item_data.celler_rating}`}
 					</CommentsBlockP>
 				</CommentsBlock>
 				{isSuccess && (
 					<BarChart
 						width={windowSizes.width - 400}
 						height={500} 
-						data={createChartData(data?.statistic.rating_analytic.nearest_ratings)}
+						data={createChartData(data?.statistic.competitors_stats.salers_rating)}
 						colors={{
 							one: '#F94144',
 						}} />
 				)}
 				<CommentsBlock>
 					<CommentsBlockTitle>
-						Выручка
+						Распределение продаж
 					</CommentsBlockTitle>
 					<CommentsBlockP>
-						{data?.statistic.revenue_analytic.comment}
+						Ваши продажи:
+						{` ${data?.statistic.item_data.celler_sold}`}
 					</CommentsBlockP>
 				</CommentsBlock>
 				{isSuccess && (
 					<BarChart
 						width={windowSizes.width - 400}
 						height={500} 
-						data={createChartData(data?.statistic.revenue_analytic.nearest_revenues)}
+						data={createChartData(data?.statistic.competitors_stats.sales)}
 						colors={{
 							one: '#F94144',
 						}} />
 				)}
-				<List
-					header='Похожие товары'
-					bordered
-					style={{ marginTop: 30 }}
-					dataSource={data?.statistic.urls_nearest}
-					renderItem={(item) => (
-						<List.Item>
-							<Link href={item as string} target='_blank'>
-								{item as string}
-							</Link>
-						</List.Item>
-					)} />
+				{isSuccess && (
+					<List
+						header='Похожие товары'
+						bordered
+						style={{ marginTop: 30 }}
+						dataSource={Object.entries(data?.statistic.competitors_stats.links as Record<string, string>)}
+						renderItem={(item, key) => (
+							<List.Item key={key}>
+								<Link href={item[1]} target='_blank'>
+									{item[0]}
+								</Link>
+							</List.Item>
+						)} />
+				)}
 			</MainLayout>
 		</>
 	);

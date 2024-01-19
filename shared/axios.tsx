@@ -22,13 +22,4 @@ instance.interceptors.request.use((req) => {
 	return req;
 });
 
-instance.interceptors.response.use((data) => data, (error) => {
-	if(error.response.status === 403 && error.config.headers.Authorization) {
-		localStorage.removeItem('access_token');
-		document.location.reload();
-	}
-
-	return Promise.reject(error);
-});
-
 export default instance;

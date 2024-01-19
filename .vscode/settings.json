@@ -1,0 +1,7 @@
+{
+    "editor.formatOnSave": false,
+    "editor.indentSize": "tabSize",
+    "editor.insertSpaces": false,
+    "editor.detectIndentation": false,
+	"typescript.preferences.quoteStyle": "single"
+}

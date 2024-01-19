@@ -6,7 +6,7 @@ import { Button, Card } from 'antd';
 import withCheckAuthLayout from '@layouts/CheckAuthLayout';
 import MainLayout from '@layouts/MainLayout';
 
-import { Content, Header, Title } from '@styles/pages/MainPage.styles';
+import { Content, Header, Title, Spin } from '@styles/pages/MainPage.styles';
 import NewProductModal from '@modals/NewProductModal';
 import { useMutation, useQuery } from 'react-query';
 import { createProducts, getProducts } from '@shared/products';
@@ -16,7 +16,7 @@ const { Meta } = Card;
 const MainPage = () => {	
 	const [showModal, setShowModal] = useState(false);
 
-	const { data, refetch } = useQuery(['get_products'], () => getProducts());
+	const { data, refetch, isLoading: isGetProductsLoading } = useQuery(['get_products'], () => getProducts());
 
 	const { mutate, isLoading } = useMutation(createProducts, {
 		onSuccess: () => {
@@ -50,7 +50,11 @@ const MainPage = () => {
 					</Button>
 				</Header>
 				<Content>
-					{(data as Array<any>)?.map((i, key) => (
+					{isGetProductsLoading ? (
+						<Spin size='large' tip='Идёт загрузка...'>
+							<div />
+						</Spin>
+					) : (data as Array<any>)?.map((i, key) => (
 						<Card
 							key={key}
 							hoverable
